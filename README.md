@@ -49,3 +49,4 @@ That's why I made Grindline, my "comeback planner."
 
 - LocalStorage (for now)
 
+- GSAP
