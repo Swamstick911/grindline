@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import logo from "../assets/logo.png";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import SignUpModal from "./SignUpModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,15 @@ export default function Home() {
   const aboutRef = useRef(null);
   const howRef = useRef(null);
   const cardRefs = useRef([]);
+  const [showModal, setShowModal] = useState(false);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const storedName = localStorage.getItem('username');
+    if (storedName) {
+      setUsername(storedName);
+    }
+  }, []);
 
   useEffect(() => {
     gsap.fromTo(
@@ -68,9 +78,17 @@ export default function Home() {
           Stay Productive. Stay Focused.
         </p>
 
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400">
-          Sign Up!
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400">
+          {username ? `Welcome, ${username}`: "Sign Up!"}
         </button>
+
+        {showModal && (
+          <SignUpModal
+            onClose={() => setShowModal(false)}
+            onSave={(name) => setUsername(name)}/>
+        )}
       </section>
 
       {/*About Section */}
