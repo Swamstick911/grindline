@@ -1,72 +1,79 @@
-import { useEffect, useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import BottomNav from "./BottomNav";
 import gsap from "gsap";
 
-const Navbar = ({ toggleDarkMode, isDarkMode }) => {
+export default function Navbar({ isDarkMode, toggleDarkMode }) {
+  const navWrapperRef = useRef(null);
   const navRef = useRef(null);
+  const [hovering, setHovering] = useState(false);
 
+  // Detect cursor near top for showing navbar
   useEffect(() => {
-    gsap.fromTo(
-      navRef.current,
-      { y: -50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power2.out" }
-    );
+    const handleMouseMove = (e) => {
+      if (e.clientY <= 60) {
+        setHovering(true);
+      } else if (e.clientY > 100) {
+        setHovering(false);
+      }
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Animate navbar up/down on hover
+  useEffect(() => {
+    if (!navRef.current) return;
+    gsap.to(navRef.current, {
+      y: hovering ? 0 : -100, // slides up when not hovering
+      duration: 0.4,
+      ease: "power2.out",
+    });
+  }, [hovering]);
+
+  // BottomNav items
+  const navItems = [
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "Planner", path: "/planner" },
+    { label: "Rank", path: "/rank" },
+    { label: "Stats", path: "/stats" },
+    { label: "Pomodoro", path: "/pomodoro" },
+    { label: "Chatbot", path: "/ai" },
+  ];
+
   return (
-    <nav
-      ref={navRef}
-      className={`w-[96%] mx-auto top-6 fixed px-6 py-3 rounded-2xl shadow-xl top-4 left-1/2 transform -translate-x-1/2 z-50 border transition-colors duration-300
-        ${isDarkMode 
-          ? 'bg-gray-900 text-white border-white/10'
-          : 'bg-white text-gray-800 border-gray-200'
-        }`}
-    >
-      <div className="flex justify-between items-center">
-        {/* Brand */}
-        <div
-          className={`text-xl font-bold px-4 py-2 rounded-full transition-colors duration-300
-            ${isDarkMode 
-              ? 'bg-gray-800 text-white' 
-              : 'bg-gray-200 text-gray-900'
-            }`}
-        >
-          <a href="/" className="hover:underline">Grindline</a>
-        </div>
-
-        {/* Navigation Links */}
-        <div
-          className={`flex gap-6 font-medium transition-colors duration-300
-            ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}
-          `}
-        >
-          <a href="/planner" className="hover:underline">Planner</a>
-          <a href="/rank" className="hover:underline">Rank</a>
-          <a href="/stats" className="hover:underline">Stats</a>
-          <a href="/pomodoro" className="hover:underline">Pomodoro</a>
-          <a href="/xp" className="hover:underline">XP</a>
-          <a href="/motivation" className="hover:underline">Motivation</a>
-        </div>
-
-        {/* Dark Mode Toggle */}
-        <div className="flex items-center">
-          <label className="inline-flex relative items-center cursor-pointer">
-            <button
-              onClick={toggleDarkMode}
-              className={`w-14 h-7 flex items-center rounded-full p-1 duration-300 ${
-                isDarkMode ? 'bg-gray-600' : 'bg-gray-300'
-              }`}
-            >
-              <div
-                className={`bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ${
-                  isDarkMode ? 'translate-x-7' : 'translate-x-0'
-                }`}
-              />
-            </button>
-          </label>
+    <>
+      <div
+        ref={navWrapperRef}
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[100px] z-50 flex justify-center items-start pointer-events-auto"
+      >
+        <div ref={navRef} className="w-full flex justify-center">
+          <BottomNav
+            items={navItems.map((item) => (
+              <Link key={item.path} to={item.path}>
+                {item.label}
+              </Link>
+            ))}
+            className=""
+          />
         </div>
       </div>
-    </nav>
-  );
-};
 
-export default Navbar;
+      {/* Dark/Light mode toggle inside navbar */}
+      <div className="fixed top-4 right-6 z-50">
+        <button
+          onClick={toggleDarkMode}
+          className={`w-14 h-7 flex items-center rounded-full p-1 duration-300 ${
+            isDarkMode ? "bg-gray-600" : "bg-gray-300"
+          }`}
+        >
+          <div
+            className={`bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ${
+              isDarkMode ? "translate-x-7" : "translate-x-0"
+            }`}
+          />
+        </button>
+      </div>
+    </>
+  );
+}
