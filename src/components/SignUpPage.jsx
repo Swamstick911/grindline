@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import ComicButton from "./ComicButton";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -142,3 +143,4 @@ export default function SignUpPage() {
     </div>
   );
 }
+
