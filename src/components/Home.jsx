@@ -3,6 +3,7 @@ import gsap from "gsap";
 import logo from "../assets/logo.png";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import SignUpModal from "./SignUpModal";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -189,4 +190,5 @@ export default function Home() {
 
     </div>
   )
+
 }
