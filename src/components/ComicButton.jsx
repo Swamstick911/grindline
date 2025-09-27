@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import gsap from "gsap";
 import "./3DComicButton.css";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function ComicButton({ onClick, text, borderColor, color, textColor, className }) {
 
@@ -62,3 +61,4 @@ export default function ComicButton({ onClick, text, borderColor, color, textCol
 
 
 }
+
