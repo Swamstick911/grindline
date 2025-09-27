@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./RippleButton.css";
 import gsap from "gsap";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function RippleButton({ ...props }) {
   const {
@@ -203,4 +204,5 @@ export default function RippleButton({ ...props }) {
       </button>
     </div>
   );
+
 }
