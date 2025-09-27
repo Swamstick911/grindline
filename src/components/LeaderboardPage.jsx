@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function LeaderboardPage() {
   const [totalXP] = useLocalStorage("totalXP", 0);
@@ -103,4 +104,5 @@ export default function LeaderboardPage() {
     </div>
   );
 }
+
 
