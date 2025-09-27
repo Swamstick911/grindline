@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ComicButton from "./ComicButton";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -104,4 +105,5 @@ export default function SignInPage() {
     </div>
   );
 }
+
 
