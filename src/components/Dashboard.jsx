@@ -4,6 +4,7 @@ import logoSrc from "../assets/logo.png";
 import StreakCard from "./Cards/StreakCard";
 import LeaderboardCard from "./Cards/LeaderboardCard";
 import ProgressCard from "./Cards/ProgressCard";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function Dashboard({ isDarkMode }) {
   const logoRef = useRef(null);
@@ -183,3 +184,4 @@ export default function Dashboard({ isDarkMode }) {
     </div>
   );
 }
+
