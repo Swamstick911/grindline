@@ -1,43 +1,89 @@
-import { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import './index.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ComingSoon from './components/ComingSoon';
+import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import MarketingLandingPage from "./components/MarketingLandingPage";
+import SignUpPage from "./components/SignUpPage";
+import SignInPage from "./components/SignInPage";
+import Dashboard from "./components/Dashboard";
+import Navbar from "./components/Navbar";
+import PlannerPage from "./components/PlannerPage";
+import LeaderboardCard from "./components/Cards/LeaderboardCard";
+import LeaderboardPage from "./components/LeaderboardPage";
+import StatsPage from "./components/StatsPage";
+import PomodoroPage from "./components/PomodoroPage";
+import ChatbotPage from "./components/ChatbotPage";
+import useLocalStorage from "./hooks/useLocalStorate";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    return savedMode ? JSON.parse(savedMode) : false;
-  });
+  // Dark mode state with localStorage persistence
+  const [isDarkMode, setIsDarkMode] = useLocalStorage("darkMode", false);
 
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDarkMode) {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
+  const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
 
-    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-  };
+  const WithNavbar = ({ children }) => (
+    <>
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      {children}
+    </>
+  );
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? "bg-[#1e2235]" : "bg-white"} transition-colors`}>
-      <Navbar toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} />
+    <div className={isDarkMode ? "dark" : ""}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/planner" element={<ComingSoon />} />
-        <Route path="/rank" element={<ComingSoon />} />
-        <Route path="/stats" element={<ComingSoon />} />
-        <Route path="/pomodoro" element={<ComingSoon />} />
-        <Route path="/xp" element={<ComingSoon />} />
-        <Route path="/motivation" element={<ComingSoon />} />
-        <Route path="*" element={<ComingSoon />} />
+        <Route path="/" element={<MarketingLandingPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+
+        <Route 
+          path="/planner" 
+          element={ 
+          <WithNavbar>
+            <PlannerPage isDarkMode={isDarkMode} />
+          </WithNavbar>
+          }
+        />
+
+        <Route 
+          path="/rank"
+          element={
+            <WithNavbar>
+              <LeaderboardPage isDarkMode={isDarkMode}></LeaderboardPage>
+            </WithNavbar>
+          } />
+        
+        <Route 
+          path="/pomodoro"
+          element={
+            <WithNavbar>
+              <PomodoroPage isDarkMode={isDarkMode}></PomodoroPage>
+            </WithNavbar>
+          } />
+
+        <Route 
+          path="/stats"
+          element={
+            <WithNavbar>
+              <StatsPage isDarkMode={isDarkMode}></StatsPage>
+            </WithNavbar>
+          } />
+
+        <Route
+          path="/dashboard"
+          element={
+            <WithNavbar>
+              <Dashboard isDarkMode={isDarkMode} />
+            </WithNavbar>
+          }
+        />
+
+        <Route
+          path="/ai"
+          element={
+            <WithNavbar>
+              <ChatbotPage isDarkMode={isDarkMode} />
+            </WithNavbar>
+          }
+        />
+
       </Routes>
     </div>
   );

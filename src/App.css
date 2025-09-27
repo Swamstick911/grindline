@@ -44,3 +44,17 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+@keyframes floaty {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(10px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s infinite;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
