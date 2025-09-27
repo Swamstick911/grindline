@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BottomNav from "./BottomNav";
+import useLocalStorage from "../hooks/useLocalStorage";
 import gsap from "gsap";
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
@@ -77,3 +78,4 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
     </>
   );
 }
+
