@@ -8,7 +8,6 @@ import remarkGfm from "remark-gfm";
 export default function ChatbotPage() {
   const [input, setInput] = useState("");
   const [chat, setChat] = useState(() => {
-    // Load from localStorage if available
     const saved = localStorage.getItem("chatHistory");
     return saved
       ? JSON.parse(saved)
@@ -21,17 +20,16 @@ export default function ChatbotPage() {
   });
   const [loading, setLoading] = useState(false);
   const [guarded, setGuarded] = useState(false);
+  const [backendAvailable, setBackendAvailable] = useState(true);
 
   const purpleRef = useRef(null);
   const blueRef = useRef(null);
   const chatEndRef = useRef(null);
 
-  // Save chat to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(chat));
   }, [chat]);
 
-  // Floating blobs animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(purpleRef.current, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: "power3.out" });
@@ -74,13 +72,15 @@ export default function ChatbotPage() {
         ...prev,
         { role: "assistant", content: data.reply || "…" },
       ]);
+      setBackendAvailable(true);
     } catch (err) {
       console.error(err);
+      setBackendAvailable(false);
       setChat((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Oops, something went wrong. Try again in a moment.",
+          content: "🤖 The AI backend is not active. You can still use Grindline for planning and tracking your tasks!",
         },
       ]);
     } finally {
@@ -131,10 +131,9 @@ export default function ChatbotPage() {
               {guarded ? "Guarded" : "Protected"}
             </div>
 
-          {/* Clear Chat Button */}
+            {/* Clear Chat Button */}
             <button
               onClick={() => {
-                // Animate fade-out
                 gsap.to(".chat-message", {
                   opacity: 0,
                   y: -10,
@@ -150,11 +149,11 @@ export default function ChatbotPage() {
                   },
                 });
               }}
-            className="px-3 py-1 text-xs rounded-lg font-medium bg-gradient-to-r from-pink-500 to-purple-600 
+              className="px-3 py-1 text-xs rounded-lg font-medium bg-gradient-to-r from-pink-500 to-purple-600 
           text-white hover:from-pink-600 hover:to-purple-700 shadow-md transition"
-          >
-            Clear Chat
-          </button>
+            >
+              Clear Chat
+            </button>
           </div>
         </div>
 
@@ -189,7 +188,6 @@ export default function ChatbotPage() {
                 ))}
               </AnimatePresence>
 
-              {/* Typing indicator */}
               {loading && (
                 <div className="flex justify-start">
                   <div className="bg-white/90 dark:bg-gray-800/80 text-gray-800 dark:text-gray-100 border border-black/5 dark:border-white/10 px-4 py-3 rounded-2xl">
