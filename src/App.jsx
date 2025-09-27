@@ -11,7 +11,6 @@ import LeaderboardPage from "./components/LeaderboardPage";
 import StatsPage from "./components/StatsPage";
 import PomodoroPage from "./components/PomodoroPage";
 import ChatbotPage from "./components/ChatbotPage";
-import useLocalStorage from "./hooks/useLocalStorate";
 
 function App() {
   // Dark mode state with localStorage persistence
