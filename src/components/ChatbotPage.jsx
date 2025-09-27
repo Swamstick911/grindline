@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { Sparkles, ShieldCheck, ShieldAlert, SendHorizonal } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function ChatbotPage() {
   const [input, setInput] = useState("");
@@ -241,3 +242,4 @@ export default function ChatbotPage() {
     </div>
   );
 }
+
