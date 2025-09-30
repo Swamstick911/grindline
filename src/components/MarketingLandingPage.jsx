@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import MagneticButton from "./MagneticButton";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function MarketingLandingPage() {
   const navigate = useNavigate();
@@ -66,5 +66,6 @@ export default function MarketingLandingPage() {
     </div>
   );
 }
+
 
 
