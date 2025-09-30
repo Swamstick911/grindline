@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export default function PlannerModule({ subject, tasks, onChange, onRemove }) {
   const [newTask, setNewTask] = useState("");
@@ -65,4 +65,5 @@ export default function PlannerModule({ subject, tasks, onChange, onRemove }) {
     </div>
   );
 }
+
 
