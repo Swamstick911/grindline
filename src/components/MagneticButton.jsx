@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./MagneticButton.css";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 gsap.registerPlugin(CustomEase);
 
@@ -124,3 +123,4 @@ export default function MagneticButton({
   );
 
 }
+
