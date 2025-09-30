@@ -1,5 +1,5 @@
 import { Card, CardContent } from "./Cards/Card";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { motion } from "framer-motion";
 import {
   LineChart,
@@ -147,5 +147,6 @@ export default function StatsPage() {
     </div>
   );
 }
+
 
 
