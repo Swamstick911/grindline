@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ComicButton from "./ComicButton";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +10,15 @@ export default function SignUpPage() {
   });
 
   const [message, setMessage] = useState("");
+  const [users, setUsers] = useState([]);
+
+  // Load users only after client render (avoids SSR/localStorage issues)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
+      setUsers(savedUsers);
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,17 +26,12 @@ export default function SignUpPage() {
 
   const handleSignup = (e) => {
     e.preventDefault();
-
-    const username = e.target.username.value.trim();
-    const email = e.target.email.value.trim();
-    const password = e.target.password.value.trim();
+    const { username, email, password } = formData;
 
     if (!username || !email || !password) {
       setMessage("⚠️ Please fill all required fields.");
       return;
     }
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
 
     if (users.some((user) => user.username === username)) {
       setMessage("Username already taken.");
@@ -41,11 +44,15 @@ export default function SignUpPage() {
     }
 
     const newUser = { username, email, password };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
+    const updatedUsers = [...users, newUser];
 
+    if (typeof window !== "undefined") {
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+    }
+
+    setUsers(updatedUsers);
     setMessage("Signup successful!");
-    e.target.reset(); // clear form
+    setFormData({ username: "", email: "", password: "" });
   };
 
   return (
@@ -57,7 +64,7 @@ export default function SignUpPage() {
         backgroundSize: "300% 300%",
       }}
     >
-      {/* ---- Floating Blobs (same as MarketingLandingPage) ---- */}
+      {/* ---- Floating Blobs ---- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
           className="absolute -top-24 -left-24 w-[28rem] h-[28rem] rounded-full opacity-40 blur-3xl animate-blob"
@@ -143,5 +150,3 @@ export default function SignUpPage() {
     </div>
   );
 }
-
-
