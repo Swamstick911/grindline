@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const SignUpModal = ({ onClose, onSave }) => {
     const [name, setName] = useState('');
@@ -37,3 +37,4 @@ const SignUpModal = ({ onClose, onSave }) => {
 
 
 export default SignUpModal;
+
