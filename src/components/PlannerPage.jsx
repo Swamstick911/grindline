@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import ComicButton from "./ComicButton";
 import RippleButton from "./RippleButton";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const PlannerPage = () => {
   const [tasks, setTasks] = useLocalStorage("plannerTasks", []);
@@ -282,5 +282,6 @@ const PlannerPage = () => {
 };
 
 export default PlannerPage;
+
 
 
