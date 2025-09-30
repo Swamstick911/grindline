@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import logoSrc from "../assets/logo.png";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export default function Home({ isDarkMode }) {
   const logoRef = useRef(null);
@@ -106,3 +106,4 @@ export default function Home({ isDarkMode }) {
   );
 
 }
+
